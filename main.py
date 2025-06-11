@@ -24,6 +24,6 @@ def main():
     print(response.text)
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}, Response tokens: {response.usage_metadata.candidates_token_count}") #type: ignore
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
 
