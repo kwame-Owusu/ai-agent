@@ -14,7 +14,7 @@ def main() -> None:
     client = genai.Client(api_key=api_key)
        
     verbose = "--verbose" in sys.argv
-    args = sys.argv[1:] 
+    args = [arg for arg in sys.argv[1:] if not arg.startswith("--")]
     user_prompt = " ".join(args) 
     if not args:
         print("AI Code Assistant")
