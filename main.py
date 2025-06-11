@@ -1,15 +1,29 @@
 import os
+import sys
 
 from dotenv import load_dotenv
 from google import genai
 
-load_dotenv()
-api_key = os.environ.get("GEMINI_API_KEY")
+def main():
+    load_dotenv()
+    api_key = os.environ.get("GEMINI_API_KEY")
 
-client = genai.Client(api_key=api_key)
-client_content = "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
-response = client.models.generate_content(model="gemini-2.0-flash-001", contents=client_content)
-print(response.text)
-print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}, Response tokens: {response.usage_metadata.candidates_token_count}") #type: ignore
+    client = genai.Client(api_key=api_key)
 
+    args = sys.argv[1:] 
+    if not args:
+        print("AI Code Assistant")
+        print("\nUsage: python main.py 'your prompt here'")
+        print("Example:  python main.py 'How do i build a calculator' ")
+        sys.exit(1)
+
+    user_prompt = " ".join(args) 
+
+
+    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=user_prompt)
+    print(response.text)
+    print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}, Response tokens: {response.usage_metadata.candidates_token_count}") #type: ignore
+
+if __name__ == "main":
+    main()
 
