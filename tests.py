@@ -1,20 +1,25 @@
+from functions.get_files_info import get_files_info
 
 
-import unittest
+def test():
+    result = get_files_info("calculator", ".")
+    print("Result for current directory:")
+    print(result)
+    print("")
 
+    result = get_files_info("calculator", "pkg")
+    print("Result for 'pkg' directory:")
+    print(result)
 
-class TestCalculator(unittest.TestCase):
-    def setUp(self):
-        self.calculator = Calculator()
+    result = get_files_info("calculator", "/bin")
+    print("Result for '/bin' directory:")
+    print(result)
 
-    def test_addition(self):
-        result = self.calculator.evaluate("3 + 5")
-        self.assertEqual(result, 8)
-
-    def test_subtraction(self):
-        result = self.calculator.evaluate("10 - 4")
-        self.assertEqual(result, 6)
+    result = get_files_info("calculator", "../")
+    print("Result for '../' directory:")
+    print(result)
 
 
 if __name__ == "__main__":
-    unittest.main()
+    test()
+
