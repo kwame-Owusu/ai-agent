@@ -1,8 +1,8 @@
-from functions.run_python import run_python
+from functions.run_python import run_python_file
 
 
 def test():
-    result = run_python("calculator",  "main.py")
+    result = run_python_file("calculator",  "main.py")
     print(result)
 
 
