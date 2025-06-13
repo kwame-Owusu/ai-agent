@@ -1,13 +1,8 @@
-from functions.write_file  import write_file
+from functions.run_python import run_python
+
 
 def test():
-    result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
-    print(result)
-
-    result = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet") #creating a dir that does not exist and writing to it
-    print(result)
-
-    result = write_file("calculator", "/temp/temp.txt", "this should not be allowed")
+    result = run_python("calculator",  "main.py")
     print(result)
 
 
