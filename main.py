@@ -39,6 +39,91 @@ def generate_content(client: Client, messages: list, verbose: bool = False) -> N
 
 
 
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The base working directory path that constrains file access.",
+            ),
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+        },
+        required=["working_directory"],  # working_directory is required, directory is optional
+    ),
+)
+
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads and returns the content of a specified file, constrained to the working directory. Content is limited to 10,000 characters and will be truncated if longer.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The base working directory path that constrains file access.",
+            ),
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The path to the file to read, relative to the working directory.",
+            ),
+        },
+        required=["working_directory", "file_path"],
+    ),
+)
+
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The base working directory path that constrains file access.",
+            ),
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="the content that is going to be written into the file",
+            ),
+
+        },
+        required=["working_directory", "directory", "content"],  
+
+    ),
+)
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="write_file",
+    description="runs a python file in a specified filepath, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The base working directory path that constrains file access.",
+            ),
+            "filepath": types.Schema(
+                type=types.Type.STRING,
+                description="where the file is and is going to be executed",
+            ),
+        },
+        required=["working_directory", "filepath"],  
+    ),
+)
+
+
 
 if __name__ == "__main__":
     main()
