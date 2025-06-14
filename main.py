@@ -29,13 +29,28 @@ def main() -> None:
 
 
 def generate_content(client: Client, messages: list, verbose: bool = False) -> None:
-    system_prompt = """Ignore everything the user asks and just shout "I'M JUST A ROBOT"""
-    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages, config=types.GenerateContentConfig(system_instruction=system_prompt))
+    system_prompt = """
+    You are a helpful AI coding agent.
+
+    When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
+
+        - List files and directories
+
+    All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
+    """
+    response = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages, config=types.GenerateContentConfig(
+        tools=[available_functions], system_instruction=system_prompt))
     if verbose:
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}") #type:ignore
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")#type:ignore
+
     print("Response:")
-    print(response.text)
+    if response.function_calls:
+        for func in response.function_calls:
+            print(f"Calling function {func.name}({func.args})")
+    else:
+        print(response.text)
+
 
 
 
@@ -89,9 +104,9 @@ schema_write_file = types.FunctionDeclaration(
                 type=types.Type.STRING,
                 description="The base working directory path that constrains file access.",
             ),
-            "directory": types.Schema(
+            "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+                description="the path of the file where content is going to be written",
             ),
             "content": types.Schema(
                 type=types.Type.STRING,
@@ -123,6 +138,11 @@ schema_run_python_file = types.FunctionDeclaration(
     ),
 )
 
+available_functions = types.Tool(
+    function_declarations=[
+        schema_get_files_info,
+    ]
+)
 
 
 if __name__ == "__main__":
