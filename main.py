@@ -60,16 +60,11 @@ schema_get_files_info = types.FunctionDeclaration(
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
-            "working_directory": types.Schema(
-                type=types.Type.STRING,
-                description="The base working directory path that constrains file access.",
-            ),
             "directory": types.Schema(
                 type=types.Type.STRING,
                 description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
             ),
         },
-        required=["working_directory"],  # working_directory is required, directory is optional
     ),
 )
 

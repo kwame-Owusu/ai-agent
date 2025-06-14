@@ -24,4 +24,3 @@ def get_files_info(working_directory:str, directory=None) -> str:
     except Exception as e:
         return f"Error listing files: {e}"
 
-
