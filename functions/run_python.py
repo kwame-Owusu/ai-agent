@@ -2,7 +2,7 @@ import os
 import subprocess
 
 
-def run_python_file(working_directory, filepath):
+def run_python_file(working_directory: str, filepath: str) -> str:
     abs_working_dir = os.path.abspath(working_directory)
     abs_file_path = os.path.abspath(os.path.join(working_directory, filepath))
 

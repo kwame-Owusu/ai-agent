@@ -5,7 +5,7 @@ from pkg.calculator import Calculator
 from pkg.render import render
 
 
-def main():
+def main() -> None:
     calculator = Calculator()
     if len(sys.argv) <= 1:
         print("Calculator App")

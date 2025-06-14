@@ -1,7 +1,7 @@
 import os
 
 
-def get_files_info(working_directory, directory=None):
+def get_files_info(working_directory:str, directory=None) -> str:
     abs_working_dir = os.path.abspath(working_directory)
     target_dir = abs_working_dir
     if directory:

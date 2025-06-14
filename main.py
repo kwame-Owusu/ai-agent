@@ -40,7 +40,6 @@ def generate_content(client: Client, messages: list, verbose: bool = False) -> N
 
 
 
-
 if __name__ == "__main__":
     main()
 

@@ -1,6 +1,5 @@
-# render.py
 
-def render(expression, result):
+def render(expression:str, result:str) -> str:
     if isinstance(result, float) and result.is_integer():
         result_str = str(int(result))
     else:

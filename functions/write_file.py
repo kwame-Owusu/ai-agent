@@ -1,7 +1,6 @@
 import os
-from os.path import exists
 
-def write_file(working_directory, file_path, content):
+def write_file(working_directory: str, file_path: str, content: str) -> str:
     abs_working_dir = os.path.abspath(working_directory)
     abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
 
