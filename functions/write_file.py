@@ -27,31 +27,23 @@ def write_file(working_directory: str, file_path: str, content: str) -> str:
     except Exception as e:
         return f"Error: writing to file: {e}"
 
-     
 
 
 schema_write_file = types.FunctionDeclaration(
     name="write_file",
-    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    description="Writes content to a file within the working directory. Creates the file if it doesn't exist.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
-            "working_directory": types.Schema(
-                type=types.Type.STRING,
-                description="The base working directory path that constrains file access.",
-            ),
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="the path of the file where content is going to be written",
+                description="Path to the file to write, relative to the working directory.",
             ),
             "content": types.Schema(
                 type=types.Type.STRING,
-                description="the content that is going to be written into the file",
+                description="Content to write to the file",
             ),
-
         },
-        required=["working_directory", "directory", "content"],  
-
+        required=["file_path", "content"],
     ),
 )
-

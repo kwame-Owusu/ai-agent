@@ -10,7 +10,6 @@ from call_function import available_functions
 
 
 
-
  
 def main() -> None:
     load_dotenv()
