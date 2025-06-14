@@ -6,8 +6,7 @@ from google import genai
 from google.genai import Client, types
 
 from prompts import system_prompt
-from call_function import schema_get_files_info
-
+from call_function import available_functions 
 
 
 
@@ -37,9 +36,9 @@ def main() -> None:
 def generate_content(client: Client, messages: list, verbose: bool = False) -> None:
     response = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages, config=types.GenerateContentConfig(
         tools=[available_functions], system_instruction=system_prompt))
-    if verbose:
-        print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}") #type:ignore
-        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")#type:ignore
+    if verbose and response.usage_metadata:
+        print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}") 
+        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
 
     print("Response:")
     if response.function_calls:
@@ -49,79 +48,6 @@ def generate_content(client: Client, messages: list, verbose: bool = False) -> N
         print(response.text)
 
 
-
-
-
-
-schema_get_file_content = types.FunctionDeclaration(
-    name="get_file_content",
-    description="Reads and returns the content of a specified file, constrained to the working directory. Content is limited to 10,000 characters and will be truncated if longer.",
-    parameters=types.Schema(
-        type=types.Type.OBJECT,
-        properties={
-            "working_directory": types.Schema(
-                type=types.Type.STRING,
-                description="The base working directory path that constrains file access.",
-            ),
-            "file_path": types.Schema(
-                type=types.Type.STRING,
-                description="The path to the file to read, relative to the working directory.",
-            ),
-        },
-        required=["working_directory", "file_path"],
-    ),
-)
-
-
-schema_write_file = types.FunctionDeclaration(
-    name="write_file",
-    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
-    parameters=types.Schema(
-        type=types.Type.OBJECT,
-        properties={
-            "working_directory": types.Schema(
-                type=types.Type.STRING,
-                description="The base working directory path that constrains file access.",
-            ),
-            "file_path": types.Schema(
-                type=types.Type.STRING,
-                description="the path of the file where content is going to be written",
-            ),
-            "content": types.Schema(
-                type=types.Type.STRING,
-                description="the content that is going to be written into the file",
-            ),
-
-        },
-        required=["working_directory", "directory", "content"],  
-
-    ),
-)
-
-schema_run_python_file = types.FunctionDeclaration(
-    name="write_file",
-    description="runs a python file in a specified filepath, constrained to the working directory.",
-    parameters=types.Schema(
-        type=types.Type.OBJECT,
-        properties={
-            "working_directory": types.Schema(
-                type=types.Type.STRING,
-                description="The base working directory path that constrains file access.",
-            ),
-            "filepath": types.Schema(
-                type=types.Type.STRING,
-                description="where the file is and is going to be executed",
-            ),
-        },
-        required=["working_directory", "filepath"],  
-    ),
-)
-
-available_functions = types.Tool(
-    function_declarations=[
-        schema_get_files_info,
-    ]
-)
 
 
 if __name__ == "__main__":

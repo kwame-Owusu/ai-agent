@@ -1,4 +1,5 @@
 import os
+from google.genai import types
 
 def write_file(working_directory: str, file_path: str, content: str) -> str:
     abs_working_dir = os.path.abspath(working_directory)
@@ -27,3 +28,30 @@ def write_file(working_directory: str, file_path: str, content: str) -> str:
         return f"Error: writing to file: {e}"
 
      
+
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The base working directory path that constrains file access.",
+            ),
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="the path of the file where content is going to be written",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="the content that is going to be written into the file",
+            ),
+
+        },
+        required=["working_directory", "directory", "content"],  
+
+    ),
+)
+
